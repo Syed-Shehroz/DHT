@@ -9,14 +9,14 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = clients::all();
-      return view ('clients.index')->with('clients', $clients);
+        $clients = clients::where('active' , 1)->get();
+        return view ('clients.client_view')->with('clients', $clients);
     }
 
 
     public function create()
     {
-        return view('clients.create');
+        return view('clients.client_add_form');
     }
 
 
@@ -27,7 +27,7 @@ class ClientController extends Controller
         return redirect('client')->with('flash_message', 'Client Addedd!');
     }
 
-
+    // not in use
     public function show($id)
     {
         $client = clients::find($id);
@@ -38,7 +38,7 @@ class ClientController extends Controller
     public function edit($id)
     {
         $client = clients::find($id);
-        return view('clients.edit')->with('clients', $client);
+        return view('clients.client_edit_form')->with('clients', $client);
 
     }
 
@@ -54,7 +54,9 @@ class ClientController extends Controller
 
     public function destroy($id)
     {
-        clients::destroy($id);
+        clients::where('id' , $id)->update([
+            'active'=>0
+        ]);
         return redirect('client')->with('flash_message', 'Client deleted!');
     }
 }

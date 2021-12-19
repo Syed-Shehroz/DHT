@@ -1,4 +1,4 @@
-@extends('clients.layout')
+@extends('welcome')
 @section('content')
     <div class="container">
         <div class="row">

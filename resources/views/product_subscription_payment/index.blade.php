@@ -1,4 +1,4 @@
-@extends('product_subscription_payment.layout')
+@extends('welcome')
 @section('content')
     <div class="container">
         <div class="row">
@@ -18,6 +18,8 @@
                                         <th>#</th>
                                         <th>Type</th>
                                         <th>Amount</th>
+                                        <th>Frequency Amount</th>
+                                        <th>Frequent Unit</th>
                                         <th>Plan</th>
                                         <th>Validity</th>
                                         <th>Status</th>
@@ -30,6 +32,8 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->type }}</td>
                                             <td>{{ $data->amount }}</td>
+                                            <td>{{ $data->frequency_amount }}</td>
+                                            <td>{{ $data->frequent_unit }}</td>
                                             <td>{{ $data->plan }}</td>
                                             <td>{{ $data->validity }}</td>
                                             <td>{{ $data->status }}</td>

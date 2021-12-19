@@ -1,4 +1,4 @@
-@extends('clients.layout')
+@extends('welcome')
 @section('content')
     <div class="card">
         <div class="card-header">Contactus Page</div>

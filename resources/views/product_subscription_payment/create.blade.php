@@ -1,4 +1,4 @@
-@extends('product_subscription_payment.layout')
+@extends('welcome')
 @section('content')
     <div class="card">
         <div class="card-header">Contactus Page</div>
@@ -18,6 +18,17 @@
 
                 <label>Amount</label></br>
                 <input type="text" name="amount" id="amount" class="form-control"></br>
+
+                <label>Frequency Amount</label></br>
+                <input type="text" name="frequency_amount" id="frequency_amount" class="form-control"></br>
+
+                <label>Frequent Unit</label>
+                <select name="frequent_unit" id="frequent_unit" class="form-control">
+                    <option value="">Select Any One</option>
+                    <option value="MONTHS">Months</option>
+                    <option value="YEAR">Year</option>
+                    <option value="DAY">Day</option>
+                </select></br>
 
                 <label>Plan</label></br>
                 <input type="text" name="plan" id="plan" class="form-control"></br>

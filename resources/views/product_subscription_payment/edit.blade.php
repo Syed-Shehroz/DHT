@@ -1,4 +1,4 @@
-@extends('product_subscription_payment.layout')
+@extends('welcome')
 @section('content')
     <div class="card">
         <div class="card-header">Contactus Page</div>

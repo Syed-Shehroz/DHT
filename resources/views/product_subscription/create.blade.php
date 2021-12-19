@@ -1,13 +1,25 @@
-@extends('product_subscription.layout')
+@extends('welcome')
 @section('content')
+<?php
+    $clientId = request()->route('clientID');
+    $projectId = request()->route('projectID');
+    ?>
     <div class="card">
-        <div class="card-header">Contactus Page</div>
+        <div class="card-header">ADD PRODUCT SUBSCRIPTION</div>
         <div class="card-body">
 
-            <form action="{{ url('product-subs') }}" method="post">
+            <form action="{{ url('client/' . $clientId . '/project/' . $projectId . '/product-subs') }}" method="post">
                 {!! csrf_field() !!}
                 <label>Plan Name</label></br>
                 <input type="text" name="plan_name" id="plan_name" class="form-control"></br>
+
+                <label>Product</label>
+                <select name="product_id" id="product_id" class="form-control">
+                    @foreach ( $products as $product )
+                    <option value="{{ $product['id'] }}">{{ $product['name'] }}</option>
+
+                    @endforeach
+                </select>
 
                 <label>Validity</label></br>
                 <input type="date" name="validity" id="validity" class="form-control"></br>

@@ -2,58 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Users;
 use Illuminate\Http\Request;
-use Hash;
-use Session;
+// use Hash;
+use Illuminate\Support\Facades\Hash;
+// use Session;
+use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 class CustomAuthController extends Controller
 {
-   public function login(){
-       return view("auth.login");
-   }
-   public function registration(){
-    return view("auth.registration");
+
+    public function index()
+    {
+        return view('auth.login');
     }
-    public function registerUser(Request $request){
-        $request->validate([
-            'name'=>'required',
-            'username'=>'required',
-            'password'=>'required|min:5|max:12',
-        ]);
-        $users = new Users();
-        $users->name = $request->name;
-        $users->username = $request->username;
-        $users->password = $request->password;
-        $res = $users->save();
-        if($res){
-            return back()->with('Succes','You are Registered');
-        }else{
-            return back()->with('failed','Something Wrong');
-        }
-    }
-    public function loginUser(Request $request)
+
+
+    public function customLogin(Request $request)
     {
         $request->validate([
-
-            'username'=>'required',
-            'password'=>'required|min:5|max:12',
+            'email' => 'required',
+            'password' => 'required',
         ]);
-        $user= Users::where('username','=',$request->username)->first();
-        if ($user) {
-            if (Hash::check($request->password, $user->password)) {
-                $request->session()->put('loginId',$user->id);
-                return redirect('dashboard');
-            } else {
-                return back()->with('failed','Password Not Match');
 
-            }
-
-        } else {
-            return back()->with('failed','This User Name Is Not Registered');
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('dashboard')
+                        ->withSuccess('Signed in');
         }
 
+        return redirect("login")->withSuccess('Login details are not valid');
     }
-    public function dashboard(){
-        return "Welcome !! To you Dashboard";
+
+
+
+    public function registration()
+    {
+        return view('auth.registration');
+    }
+
+
+    public function customRegistration(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+        ]);
+
+        $data = $request->all();
+        $check = $this->create($data);
+
+        return redirect("dashboard")->withSuccess('You have signed-in');
+    }
+
+
+    public function create(array $data)
+    {
+      return User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password'])
+      ]);
+    }
+
+
+    public function dashboard()
+    {
+        if(Auth::check()){
+            return view('dashboard');
+        }
+
+        return redirect("login")->withSuccess('You are not allowed to access');
+    }
+
+
+    public function signOut() {
+        Session::flush();
+        Auth::logout();
+
+        return Redirect('login');
     }
 }

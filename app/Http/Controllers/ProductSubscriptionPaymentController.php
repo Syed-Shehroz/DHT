@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\ProductSubscriptionPayment;
 class ProductSubscriptionPaymentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $payments = ProductSubscriptionPayment::all();
+        $productsubsID= $request->route('productsubsID');
+
+        $payments = ProductSubscriptionPayment::where('reference_id',$productsubsID)->where('active' , 1)->get();
       return view ('product_subscription_payment.index')->with('payments', $payments);
     }
 
@@ -21,6 +23,7 @@ class ProductSubscriptionPaymentController extends Controller
 
     public function store(Request $request)
     {
+
         $input = $request->all();
         ProductSubscriptionPayment::create($input);
         return redirect('product-payment')->with('flash_message', 'Client Addedd!');
