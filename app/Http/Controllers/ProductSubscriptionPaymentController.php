@@ -9,7 +9,6 @@ class ProductSubscriptionPaymentController extends Controller
     public function index(Request $request)
     {
         $productsubsID= $request->route('productsubsID');
-
         $payments = ProductSubscriptionPayment::where('reference_id',$productsubsID)->where('active' , 1)->get();
       return view ('product_subscription_payment.index')->with('payments', $payments);
     }
